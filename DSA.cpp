@@ -15,12 +15,16 @@ void insertElement(int arr[]);
 void menu(int arr[]);
 void deleteItem(int arr[]);
 void single_search(int arr[]);
-void countTotalElement(int arr[]);
+void modifyarray(int arr[]);
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void Traverse(int arr[])
 {
-	for(int i=0; i<size; i++)
+	if(totalElement==0)
+	{
+		cout<<"\t Array is empty"<<endl<<endl;
+	}
+	for(int i=0; i<totalElement; i++)
 	 {
 	 	if(i==0)
 	 	 cout<<"\t "<<arr[i]<<" ";
@@ -29,16 +33,44 @@ void Traverse(int arr[])
      }
      cout<<endl<<endl;
 }
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-void countTotalElement(int arr[])
+void modifyarray(int arr[])
 {
-	 for(int i = 0; i < size; i++)
-		{
-		    if(arr[i] != 0)
-		        totalElement++; 
-		    else
-		        continue; 
-		}
+	int var;
+	cout<<endl;
+	cout<<"********************************************************************"<<endl;
+	cout<<"\t Enter the size to increment in this array : ";
+	cin>>var;
+	cout<<"********************************************************************"<<endl;
+	 size+=var;
+	 cout<<endl;
+	 cout<<"\t Size modifiied successfully"<<endl<<endl;
+	 for(int i=size-var;i<size;i++)
+	 {
+	 	arr[i]=0;
+	 }
+	 cout<<"*************************************************************";
+	 cout<<endl;
+	 cout<<"\t Are You want to perform other operation ?(Y/N) : ";
+	 cin>>option;
+	 cout<<"*************************************************************";
+		  option =toupper(option);
+			  if(option=='N')
+			    exit(0);
+			  else if(option=='Y')
+	          {
+			    menu(arr);
+			    return;
+	     	  }
+	        else
+	     	  {
+	     		cout<<endl;
+	     		cout<<"\t invalid key is entered";
+	     		cout<<"*************************************************************";
+	     		return;
+	     		
+			 }
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -46,7 +78,6 @@ void insertElement(int arr[])
 {
 	 while(true)
 	 {
-	 	countTotalElement(arr);
 		if(size==totalElement)
 		{
 		  cout<<"\t Array is full...Thank you";
@@ -137,6 +168,7 @@ void deleteItem(int arr[])
 {
 	while(true)
 	{
+		    found=false;
 			cout<<"\t Enter element value to delete : ";
 			cin>>ElementValue;
 			for(int i=0;i<size;i++)
@@ -147,7 +179,7 @@ void deleteItem(int arr[])
 					found = true;
 				}
 			}
-			if(found==false)
+			if(!found)
 			{
 				cout<<"\t Element not found..";	
 				cout<<endl<<endl;
@@ -202,6 +234,7 @@ void deleteItem(int arr[])
 						{
 							arr[i]=arr[i+1];		
 						}
+//						arr[ElementIndex] = 0;
 						totalElement--;
 						cout<<"\t Element deleted successfully."<<endl<<endl;
 						cout<<"*************************************************************"<<endl;
@@ -212,7 +245,6 @@ void deleteItem(int arr[])
 					    option=toupper(option);
 					    if(option=='Y')
 						{
-						  found=false;
 						  continue;
 						}
 						else
@@ -250,17 +282,37 @@ void single_search(int arr[])
 	{
 		if(arr[i]==ElementValue)
 		{
-			cout<<ElementValue<<" found at index "<<i;
+			cout<<ElementValue<<" found at index "<<i<<endl;
 			cout<<"*************************************************************";
-			cout<<"\t Are you want to continue searching?(Y/N)";
+			cout<<"\t Are you want to continue searching?(Y/N) : ";
 			cin>>option;
-			cout<<"*************************************************************";
+			cout<<"\n*************************************************************";
 			option = toupper(option);
 			if(option=='N')
-			 exit(0);
+			{
+				cout<<endl;
+						   cout<<"*************************************************************"<<endl;
+							cout << "\t Are you want to perform another operation ?(Y/N) : ";
+							cin>>option;
+							cout<<"*************************************************************";
+							cout<<endl<<endl;
+						    option=toupper(option);
+						    if(option=='Y')
+						    {
+						    	menu(arr);
+						    	break;
+							}
+							else
+							{
+								exit(0);
+								
+							}
+			}
+			 
 			else
 			{
-				continue;
+				break;
+				single_search(arr);
 				cout<<endl<<endl;	
 			}
 			 
@@ -270,6 +322,92 @@ void single_search(int arr[])
 }
  
  
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void multi_Search(int arr[])
+{
+	count=0;
+	cout<<"\t Enter Value to search : ";
+	cin>>ElementValue;
+	for(int i=0;i<totalElement;i++)
+	{
+		if(arr[i]==ElementValue)
+		{
+			found=true;
+			count++;
+		}
+	}
+	if(!found)
+	{
+		cout<<endl;
+		cout<<"\t Item is not found"<<endl;		
+	}
+	else
+	{
+		cout<<"\t "<<ElementValue<<" found "<<count<<" times in this array"<<endl<<endl;
+	}
+}
+void bubble_sort(int arr[])
+{
+	for(int i=0;i<totalElement;i++)
+	{
+		int j = i+1;
+		for(j;j<totalElement;j++)
+		{
+			if(arr[i] > arr[j])
+			{
+				int temp;
+				temp   = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		}
+	}
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void insertion_sort(int arr[])
+{
+	for(int i=1;i<5;i++)
+	{
+		for(int j=i-1;j>=0;j--)
+		{
+			if(arr[j] > arr[j+1])
+			{
+				int temp=arr[j];
+				arr[j]=arr[j+1];
+				arr[j+1]=temp;
+				
+			}
+		}
+	}
+	
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+void selection_sort(int arr[])
+{
+	for(int i=0;i<5;i++)
+	{
+		int min_index=i;
+		for(int j=i+1;j<5;j++)
+		{
+			if(arr[j]<arr[min_index])
+			{
+				min_index=j;
+			}
+		}
+		
+		int temp = arr[min_index];
+		arr[min_index]=arr[i];
+		arr[i]   = temp;
+			
+	}
+	
+	for(int k=0;k<5;k++)
+	{
+		cout<<arr[k]<<endl;
+	}
+}
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void menu(int arr[])
 {
@@ -281,7 +419,10 @@ void menu(int arr[])
 	cout<<"\t 3 for Deletion"<<endl;
 	cout<<"\t 4 for Searching"<<endl;
 	cout<<"\t 5 for Sorting"<<endl;
-	cout<<"\t 6 for Exit"<<endl<<endl;
+	cout<<"\t 6 for Modify Array size"<<endl;
+	cout<<"\t 7 for Exit"<<endl;
+	cout<<"\t 8 for multi_Search"<<endl;
+	cout<<"\t 9 for bubble_sort"<<endl;
 	cout<<"\t Enter Your operation code : ";
 	cin>>choice;
 	cout<<endl;
@@ -308,8 +449,20 @@ void menu(int arr[])
 		case 3:
 		    deleteItem(arr);
 			break;
+		case 4:
+		    single_search(arr);
+			break;
 		case 6:
+			modifyarray(arr);
+				
+		case 7:
 				exit(0);
+		case 8:
+			multi_Search(arr);
+			break;
+		case 9:
+			bubble_sort(arr);
+			break;
 		default:
 		 cout<<"\t invalid key in entered";	
 	}
@@ -321,9 +474,12 @@ void menu(int arr[])
 int main()
 {
    cout<<"***************************** Welcome To The Back Bencher Project **************************************"<<endl<<endl;
-   cout<<"\t Enter the size of array : ";
-   cin>>size;
-   int myarray[size]={0};
-   menu(myarray);   
+//   cout<<"\t Enter the size of array : ";
+//   cin>>size;
+//   int myarray[size]={0};
+//   menu(myarray); 
+//int amyarr[5]={2,500,100,10,1};
+//insertion_sort(amyarr);  
+//selection_sort(amyarr);
    return 0;
 }
